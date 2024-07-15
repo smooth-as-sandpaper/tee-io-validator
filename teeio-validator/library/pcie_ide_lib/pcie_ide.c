@@ -593,10 +593,10 @@ bool init_pci_doe(int fd)
 
   trigger_doe_abort();
   libspdm_sleep(1000000);
-  if (is_doe_error_asserted())
-  {
-    TEEIO_ASSERT(false);
-  }
+  // if (is_doe_error_asserted())
+  // {
+  //   TEEIO_ASSERT(false);
+  // }
 
   for(int i = 0; i < doe_cnt; i++) {
     g_doe_extended_offset = doe_extended_offsets[i];

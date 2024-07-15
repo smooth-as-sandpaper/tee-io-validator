@@ -70,7 +70,7 @@ char * current_time()
     return m_timestamp;
 }
 
-void teeio_debug_print(int debug_level, const char *format, ...)
+void teeio_debug_print(int debug_level, const char *file, int line, const char *format, ...)
 {
     char buffer[IDE_MAX_LOG_MESSAGE_LENGTH] = {0};
     va_list marker;
@@ -87,10 +87,10 @@ void teeio_debug_print(int debug_level, const char *format, ...)
 
     char* timestamp = current_time();
 
-    printf("[%s][%s] %s", timestamp, get_ide_log_level_string(debug_level), buffer);
+    printf("[%s][%s][%s:%d] %s", timestamp, get_ide_log_level_string(debug_level), file, line, buffer);
 
     if(m_logfile) {
-        fprintf(m_logfile, "[%s][%s] %s", timestamp, get_ide_log_level_string(debug_level), buffer);
+        fprintf(m_logfile, "[%s][%s][%s:%d] %s", timestamp, get_ide_log_level_string(debug_level), file, line, buffer);
         fflush(m_logfile);
     }
 }

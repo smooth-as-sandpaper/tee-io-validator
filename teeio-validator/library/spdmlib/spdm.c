@@ -133,7 +133,9 @@ void *spdm_client_init(void)
     data16 = SPDM_ALGORITHMS_AEAD_CIPHER_SUITE_AES_256_GCM;
     libspdm_set_data(spdm_context, LIBSPDM_DATA_AEAD_CIPHER_SUITE, &parameter,
                      &data16, sizeof(data16));
-    data16 = 0;
+    data16 = SPDM_ALGORITHMS_BASE_ASYM_ALGO_TPM_ALG_ECDSA_ECC_NIST_P384;
+    data16 |= SPDM_ALGORITHMS_BASE_ASYM_ALGO_TPM_ALG_ECDSA_ECC_NIST_P256;
+    data16 |= SPDM_ALGORITHMS_BASE_ASYM_ALGO_TPM_ALG_RSASSA_3072;
     libspdm_set_data(spdm_context, LIBSPDM_DATA_REQ_BASE_ASYM_ALG, &parameter,
                      &data16, sizeof(data16));
     data16 = SPDM_ALGORITHMS_KEY_SCHEDULE_HMAC_HASH;

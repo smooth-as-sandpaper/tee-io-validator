@@ -25,6 +25,10 @@
 #define   PCI_EXPRESS_REG_DOE_STATUS_DOE_READY 0x80000000
 #define PCI_EXPRESS_REG_DOE_WRITE_DATA_MAILBOX_OFFSET 0x10
 #define PCI_EXPRESS_REG_DOE_READ_DATA_MAILBOX_OFFSET 0x14
+#define PCI_EXPRESS_REG_DOE_CONFIGURATION1_OFFSET           0x18
+#define PCI_EXPRESS_REG_DOE_CONFIGURATION2_OFFSET           0x1C
+#define PCI_EXPRESS_REG_DOE_INTERRUPT_EN_OFFSET             0x20
+#define PCI_EXPRESS_REG_DOE_INTERRUPT_STATUS_OFFSET         0x24
 
 #define PCI_EXPRESS_DOE_MAILBOX_TIMEOUT 300000000   // 30 second, enough for debug device to respond
 /* PCI Express - end */
@@ -87,6 +91,26 @@ uint32_t device_pci_doe_read_mailbox_read_32 ()
 void device_pci_doe_read_mailbox_write_32 (uint32_t data)
 {
     device_pci_write_32 (g_doe_extended_offset + PCI_EXPRESS_REG_DOE_READ_DATA_MAILBOX_OFFSET, data, m_dev_fp);
+}
+
+uint32_t device_pci_doe_configuration1_read_32 ()
+{
+    return device_pci_read_32 (g_doe_extended_offset + PCI_EXPRESS_REG_DOE_CONFIGURATION1_OFFSET, m_dev_fp);
+}
+
+uint32_t device_pci_doe_configuration2_read_32 ()
+{
+    return device_pci_read_32 (g_doe_extended_offset + PCI_EXPRESS_REG_DOE_CONFIGURATION2_OFFSET, m_dev_fp);
+}
+
+uint32_t device_pci_doe_interrupt_en_read_32 ()
+{
+    return device_pci_read_32 (g_doe_extended_offset + PCI_EXPRESS_REG_DOE_INTERRUPT_EN_OFFSET, m_dev_fp);
+}
+
+uint32_t device_pci_doe_interrupt_status_read_32 ()
+{
+    return device_pci_read_32 (g_doe_extended_offset + PCI_EXPRESS_REG_DOE_INTERRUPT_STATUS_OFFSET, m_dev_fp);
 }
 
 bool is_doe_error_asserted(){
@@ -166,6 +190,7 @@ libspdm_return_t device_doe_send_message(
     }
 
     delay = timeout / 30 + 1;
+    trigger_doe_abort();
 
     if (is_doe_error_asserted()) {
         TEEIO_DOE_DEBUG ((TEEIO_DEBUG_INFO, "[device_doe_send_message] 'DOE Error' bit is set. Clearing...\n"));

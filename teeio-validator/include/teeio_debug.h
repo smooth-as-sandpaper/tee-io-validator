@@ -17,7 +17,7 @@ typedef enum {
   TEEIO_DEBUG_NUM
 } TEEIO_DEBUG_LEVEL;
 
-void teeio_debug_print(int debug_level, const char *format, ...);
+void teeio_debug_print(int debug_level, const char* file, int line, const char *format, ...);
 void teeio_print(const char *format, ...);
 void teeio_assert(const char *file_name, int line_number,
                                  const char *description);
@@ -45,7 +45,7 @@ const char* get_ide_log_level_string(TEEIO_DEBUG_LEVEL debug_level);
 
 #define TEEIO_DEBUG_PRINT_INTERNAL(debug_level, ...) \
     do { \
-        teeio_debug_print(debug_level, ## __VA_ARGS__); \
+        teeio_debug_print(debug_level, __FILE__, __LINE__, ## __VA_ARGS__); \
     } while (false)
 
 #define TEEIO_DEBUG_INTERNAL(expression) TEEIO_DEBUG_PRINT_INTERNAL expression
